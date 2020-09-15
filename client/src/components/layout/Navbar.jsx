@@ -41,7 +41,7 @@ const Navbar = ({ dispatch, isAuthenticated }) => {
       {/* visible on small screen */}
       <ul className="visible-sm">
         <button className="nav-burger" onClick={toggleTranslateX}>
-          x
+          ✕
         </button>
         <li className="space-top-bg">
           <Link className="nav-item logo-nav" to="/" onClick={toggleTranslateX}>
@@ -104,7 +104,7 @@ const Navbar = ({ dispatch, isAuthenticated }) => {
       {/* visible on small screen */}
       <ul className="visible-sm">
         <button className="nav-burger" onClick={toggleTranslateX}>
-          x
+          ✕
         </button>
         <li className="space-top-bg">
           <Link className="nav-item logo-nav" to="/" onClick={toggleTranslateX}>

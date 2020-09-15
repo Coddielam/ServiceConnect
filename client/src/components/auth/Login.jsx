@@ -18,12 +18,11 @@ const Login = ({ login, isAuthenticated }) => {
     login({ email, password });
   };
 
+  const { email, password } = formData;
+
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
-
-  const { email, password } = formData;
-
   return (
     <div className="auth-form">
       <h1>Login to Your Account</h1>

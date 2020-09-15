@@ -5,6 +5,21 @@ const Users = require("../../models/Users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const auth = require("../../middleware/auth");
+
+// @route   /api/auth
+// @desc    get current user profile
+// @access  Private
+router.get("/", auth, async (req, res) => {
+  try {
+    const user = await Users.findById(req.user.user.id).select("-password");
+    if (!user) return res.status(400).json({ msg: "Could not find user" });
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(400).send("Server error");
+  }
+});
 
 // @route    POST /api/auth
 // @desc     Login
@@ -51,6 +66,7 @@ router.post(
         (err, hash) => {
           if (err) console.error(err.message);
           res.json(hash);
+          res.redirect("/dashboard");
         }
       );
     } catch (err) {

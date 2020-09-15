@@ -46,10 +46,6 @@ const Register = ({
     }
   };
 
-  if (isAuthenticated) {
-    return <Redirect to="/login" />;
-  }
-
   let {
     name,
     email,
@@ -59,6 +55,10 @@ const Register = ({
     state,
     country,
   } = formData;
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <div className="auth-form">

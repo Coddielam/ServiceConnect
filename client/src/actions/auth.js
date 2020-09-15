@@ -1,5 +1,6 @@
 import axios from "axios";
 import { setAlert } from "../actions/alert";
+import setAuthToken from "../utils/setAuthToken";
 
 export const register = ({ name, email, password, location }) => async (
   dispatch
@@ -25,6 +26,8 @@ export const register = ({ name, email, password, location }) => async (
       // token string
       payload: res.data,
     });
+    dispatch(loadUser());
+
     dispatch({
       type: "FINISH_LOADING",
     });
@@ -37,6 +40,7 @@ export const register = ({ name, email, password, location }) => async (
     dispatch({
       type: "REGISTER_FAIL",
     });
+
     dispatch({
       type: "FINISH_LOADING",
     });
@@ -66,6 +70,8 @@ export const login = ({ email, password }) => async (dispatch) => {
       payload: res.data,
     });
 
+    dispatch(loadUser());
+
     dispatch({
       type: "FINISH_LOADING",
     });
@@ -88,6 +94,28 @@ export const login = ({ email, password }) => async (dispatch) => {
 
     dispatch({
       type: "FINISH_LOADING",
+    });
+  }
+};
+
+export const loadUser = () => async (dispatch) => {
+  // check if there's a token in localStorage
+  if (localStorage.token) {
+    // if there is - attach it to global header in x-auth-token
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    // make request to /api/auth to get the user document
+    const res = await axios.get("/api/auth");
+    // update state
+    dispatch({
+      type: "USER_LOADED",
+      payload: res.data, // will be the user object
+    });
+  } catch (err) {
+    dispatch({
+      type: "AUTH_ERROR",
     });
   }
 };
